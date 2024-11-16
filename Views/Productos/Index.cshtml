@@ -1,0 +1,61 @@
+﻿@model IEnumerable<MockPruebaTecnica.Models.Producto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>
+    Productos
+</h1>
+
+<p>
+    <a class="btn btn-success" asp-action="Create"><i class="bi bi-file-plus"></i>Crear Nuevo</a>
+</p>
+<table class="table table-warning table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CodigoBarras)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreProducto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Categoria)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoBarras)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreProducto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Categoria)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio)
+            </td>
+            <td>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i> Editar</a> |
+                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-info-square"></i> Detalles</a> |
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash3-fill"></i> Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

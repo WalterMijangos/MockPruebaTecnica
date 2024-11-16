@@ -1,0 +1,50 @@
+﻿@model IEnumerable<MockPruebaTecnica.Models.Cliente>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>
+    Clientes
+</h1>
+
+<p>
+    <a class="btn btn-success" asp-action="Create"><i class="bi bi-file-plus"></i>Crear Nuevo</a>
+</p>
+<table class="table table-success table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apellido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Correo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Correo)
+            </td>
+            <td>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.ClienteID"><i class="bi bi-pencil-square"></i> Editar</a> |
+                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.ClienteID"><i class="bi bi-info-square"></i> Detalles</a> |
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ClienteID"><i class="bi bi-trash3-fill"></i> Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+ 

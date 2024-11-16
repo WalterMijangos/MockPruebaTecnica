@@ -1,0 +1,141 @@
+﻿@using Newtonsoft.Json
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <!-- Filtros -->
+        <p>Nota: No pude hacer lo de los filtros</p>
+        <div class="col-md-5">
+            <input type="text" class="form-control" placeholder="Filtrar por producto...">
+        </div>
+        <div class="col-md-2">
+            <input type="text" class="form-control" placeholder="Año">
+        </div>
+        <div class="col-md-2">
+            <input type="text" class="form-control" placeholder="Mes">
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row m-lg-2">
+    <!-- Tarjetas de Totales -->
+    <div class="col-md-3">
+        <div class="card text-center" style="border-radius:15px;">
+            <div class="card-body">
+                <h3>Q. @ViewData["TotalVentas"] </h3>
+                <p>Total de Ventas 💰</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row m-lg-2">
+    <div class="col-md-3 mt-3">
+        <div class="card text-center" style="border-radius:15px;">
+            <div class="card-body">
+                <h3>@ViewData["TotalUnidades"]</h3>
+                <p>Total de Unidades 📦</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-7">
+        <div class="card" >
+            <div id="graficoVentasPorMes"></div>
+		</div>
+	</div>
+
+	<div class="col-6">
+        <div class="card">
+            <div id="graficoVentasPorCategoria"></div>
+		</div>
+	</div>
+
+	<div class="col-6">
+        <div class="card">
+            <div id="graficoTop10Productos"></div>
+		</div>
+	</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const ventasPorMes = @Html.Raw(JsonConvert.SerializeObject(ViewBag.VentasPorMes));
+
+        const configuracion = {
+            chart: {
+                type: 'line'
+            },
+            series: [{
+                name: 'Total Ventas',
+                data: ventasPorMes.map(item => item.TotalVentas)
+            }],
+            xaxis: {
+                categories: ventasPorMes.map(item => `Mes ${item.Mes}`)
+            },
+            title: {
+                text: 'Ventas por Mes',
+            }
+        };
+
+        const chart = new ApexCharts(
+            document.getElementById("graficoVentasPorMes"),
+            configuracion
+        );
+        chart.render();
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const ventasPorCategoria = @Html.Raw(JsonConvert.SerializeObject(ViewBag.VentasPorCategoria));
+
+        const configuracion = {
+            chart: {
+                type: 'pie'
+            },
+            series: ventasPorCategoria.map(item => item.TotalVentas),
+            labels: ventasPorCategoria.map(item => item.Categoria),
+            title: {
+                text: 'Ventas por Categoría'
+            }
+        };
+
+        const chart = new ApexCharts(
+            document.getElementById("graficoVentasPorCategoria"),
+            configuracion
+        );
+        chart.render();
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const top10Productos = @Html.Raw(JsonConvert.SerializeObject(ViewBag.Top10Productos));
+
+        const configuracion = {
+            chart: {
+                type: 'bar'
+            },
+            series: [{
+                name: 'Unidades Vendidas',
+                data: top10Productos.map(item => item.UnidadesVendidas)
+            }],
+            xaxis: {
+                categories: top10Productos.map(item => item.Producto)
+            },
+            title: {
+                text: 'Top 10 Productos Más Vendidos',
+            }
+        };
+
+        const chart = new ApexCharts(
+            document.getElementById("graficoTop10Productos"),
+            configuracion
+        );
+        chart.render();
+    });
+</script>
+

@@ -1,0 +1,83 @@
+﻿@model IEnumerable<MockPruebaTecnica.Models.Venta>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>
+   Ventas
+</h1>
+
+<p>
+    <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#fileModal"> <i class="bi bi-file-earmark-spreadsheet"></i> Cargar Archivo</button>
+    <a class="btn btn-success" asp-action="Create"><i class="bi bi-file-plus"></i>Crear Nuevo</a>
+</p>
+<table class="table table-info table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClienteId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductoId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cantidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalVenta)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClienteId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductoId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cantidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalVenta)
+            </td>
+            <td>
+                    <a class ="btn btn-warning" asp-action="Edit" asp-route-id="@item.VentaId"><i class="bi bi-pencil-square"></i> Editar</a> |
+                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.VentaId"<i class="bi bi-info-square"></i> Detalles</a> |
+                    <a class="btn btn-danger"asp-action="Delete" asp-route-id="@item.VentaId"><i class="bi bi-trash3-fill"></i> Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="fileModal" tabindex="-1" aria-labelledby="fileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="fileModalLabel">Carga de Archivo Masiva</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-action="CargarArchivo" enctype="multipart/form-data">
+                    <div class="form-group m-3">
+                        <label for="imageFile" class="control-label">Seleccione un archivo de Excel, que desee cargar</label>
+                        <input type="file" name="file" class="form-control" accept=".xlsx" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Cargar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
